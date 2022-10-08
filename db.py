@@ -48,11 +48,11 @@ def check_password(username, password):
         result = cursor.execute('SELECT * FROM accounts where username=%s and password=%s', (username, password))
         account = cursor.fetchall()
         if result > 0: 
-            got_account = jsonify(account)
+            got_account = {"operation": "success"}
         else: 
-            got_account = "No users with that combination"
+            got_account = {"operation": "error"}
     conn.close()
-    return got_account
+    return jsonify(got_account)
 
 
 def add_new_user(username, password):

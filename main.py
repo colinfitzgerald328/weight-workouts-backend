@@ -1,8 +1,10 @@
 #main.py
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 from db import get_songs, add_songs, check_password, add_new_user
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/', methods=['POST', 'GET'])
 def songs():
@@ -22,13 +24,14 @@ def login_user():
     password = params.get("password")
     return(check_password(username, password))
 
+
 @app.route('/addUser', methods=['POST'])
 def add_user():
     params = request.json
     username = params.get("username")
     password = params.get("password")
     add_new_user(username, password)
-    return "User successfully added to database"
+    return jsonify({"operation": "success"})
       
 
 
