@@ -1,0 +1,8 @@
+#app.yaml
+runtime: python39
+
+env_variables:
+  CLOUD_SQL_USERNAME: colinfitzgerald
+  CLOUD_SQL_PASSWORD: jimmyneutron1!
+  CLOUD_SQL_DATABASE_NAME: weight-workouts-database
+  CLOUD_SQL_CONNECTION_NAME: weight-workouts:us-central1:weight-workouts-db
