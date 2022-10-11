@@ -35,6 +35,7 @@ def get_songs():
     conn.close()
     return got_songs
 
+
 def add_songs(song):
     conn = open_connection()
     with conn.cursor() as cursor:
@@ -42,13 +43,14 @@ def add_songs(song):
     conn.commit()
     conn.close()
 
+
 def check_password(username, password):
     conn = open_connection()
     with conn.cursor() as cursor:
         result = cursor.execute('SELECT * FROM accounts where username=%s and password=%s', (username, password))
         account = cursor.fetchall()
         if result > 0: 
-            got_account = {"operation": "success"}
+            got_account = {"operation": "success", "account_info": account}
         else: 
             got_account = {"operation": "error"}
     conn.close()
@@ -61,3 +63,44 @@ def add_new_user(username, password):
         cursor.execute('INSERT INTO accounts (username, password) VALUES(%s, %s)', (username, password))
     conn.commit()
     conn.close()
+
+
+def add_exercise(account_id, timestamp, exercise_type, weight, reps): 
+    conn = open_connection()
+    with conn.cursor() as cursor: 
+        cursor.execute('INSERT INTO workouts (account_id, TIMESTAMP, exercise_type, weight, reps) VALUES (%s, %s, %s, %s, %s)', (account_id, timestamp, exercise_type, weight, reps))
+    conn.commit()
+    conn.close()
+
+
+def get_feed_for_user(account_id): 
+    conn = open_connection()
+    with conn.cursor() as cursor:
+        result = cursor.execute('SELECT TIMESTAMP, COUNT(*) as sets, SUM(reps) as total_reps from workouts where account_id=%s group by TIMESTAMP', (account_id))
+        feed = cursor.fetchall()
+        if result > 0:
+            got_feed = {"operation": "success", "feed": feed}
+        else:
+            got_feed = {"operation": "error"}
+    conn.close()
+    return jsonify(got_feed)
+
+
+def get_workout_by_timestamp(timestamp, account_id): 
+    conn = open_connection()
+    with conn.cursor() as cursor:
+        result = cursor.execute('SELECT * from workouts where TIMESTAMP=%s and account_id=%s', (timestamp, account_id))
+        workout_details = cursor.fetchall()
+        if result > 0:
+            got_workout = {"operation": "success", "workout_details": workout_details}
+        else:
+            got_workout = {"operation": "error"}
+    conn.close()
+    return jsonify(got_workout)
+
+def add_length_and_type(account_id, timestamp, length, type): 
+    conn = open_connection()
+    with conn.cursor() as cursor:
+        cursor.execute('INSERT INTO workout_details (account_id, TIMESTAMP, length, type) VALUES (%s, %s, %s, %s)', (account_id, timestamp, length, type))
+        conn.commit()
+        conn.close()
