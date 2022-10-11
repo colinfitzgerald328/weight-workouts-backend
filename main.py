@@ -21,6 +21,7 @@ def songs():
 
     return get_songs()    
 
+
 @app.route('/login', methods=['POST'])
 def login_user():
     params = request.json
@@ -37,6 +38,7 @@ def add_user():
     add_new_user(username, password)
     return jsonify({"operation": "success"})
 
+
 @app.route('/logWorkout', methods=['POST'])
 def log_workout(): 
     timestamp = current_timestamp()
@@ -50,11 +52,13 @@ def log_workout():
         add_exercise(account_id=exercise["account_id"], timestamp=timestamp, exercise_type=exercise["exercise_type"], weight=exercise["weight"], reps=exercise["reps"])
     return jsonify({"operation": "success"})
 
+
 @app.route('/getFeed', methods=['GET'])
 def get_feed():
     params = request.args
     account_id = params.get("account_id")
     return (get_feed_for_user(account_id))
+    
 
 @app.route('/getWorkout', methods=['GET'])
 def get_workout_details():
