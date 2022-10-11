@@ -98,9 +98,9 @@ def get_workout_by_timestamp(timestamp, account_id):
     conn.close()
     return jsonify(got_workout)
 
-def add_length_and_type(account_id, timestamp, length, type): 
+def add_length_and_type(account_id, timestamp, exercise_type, length): 
     conn = open_connection()
     with conn.cursor() as cursor:
-        cursor.execute('INSERT INTO workout_details (account_id, TIMESTAMP, length, type) VALUES (%s, %s, %s, %s)', (account_id, timestamp, length, type))
+        cursor.execute('INSERT INTO workout_details (account_id, TIMESTAMP, exercise_type, length) VALUES (%s, %s, %s, %s)', (account_id, timestamp, exercise_type, length))
         conn.commit()
         conn.close()
