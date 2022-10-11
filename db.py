@@ -90,9 +90,9 @@ def get_workout_by_timestamp(timestamp, account_id):
     conn = open_connection()
     with conn.cursor() as cursor:
         result = cursor.execute('SELECT * from workouts where TIMESTAMP=%s and account_id=%s', (timestamp, account_id))
-        workout_details = cursor.fetchall()
+        workout = cursor.fetchall()
         if result > 0:
-            got_workout = {"operation": "success", "workout_details": workout_details}
+            got_workout = {"workout_details": workout}
         else:
             got_workout = {"operation": "error"}
     conn.close()
@@ -104,3 +104,15 @@ def add_length_and_type(account_id, timestamp, exercise_type, length):
         cursor.execute('INSERT INTO workout_details (account_id, TIMESTAMP, exercise_type, length) VALUES (%s, %s, %s, %s)', (account_id, timestamp, exercise_type, length))
         conn.commit()
         conn.close()
+
+def get_workout_details_by_timestamp(timestamp, account_id): 
+    conn = open_connection()
+    with conn.cursor() as cursor:
+        result = cursor.execute('SELECT * from workout_details where TIMESTAMP=%s and account_id=%s', (timestamp, account_id))
+        workout_details = cursor.fetchall()
+        if result > 0:
+            got_workout_stats = {"workout_stats": workout_details}
+        else:
+            got_workout_stats = {"operation": "error"}
+    conn.close()
+    return jsonify(got_workout_stats)

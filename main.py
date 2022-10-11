@@ -2,7 +2,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import time
-from db import get_songs, add_songs, check_password, add_new_user, add_exercise, get_feed_for_user, get_workout_by_timestamp, add_length_and_type
+from db import get_songs, add_songs, check_password, add_new_user, add_exercise, get_feed_for_user, get_workout_by_timestamp, add_length_and_type, get_workout_details_by_timestamp
 
 app = Flask(__name__)
 CORS(app)
@@ -66,6 +66,13 @@ def get_workout_details():
     timestamp = params.get("timestamp")
     account_id = params.get("account_id")
     return (get_workout_by_timestamp(timestamp, account_id))
+
+@app.route('/getWorkoutStats', methods=['GET'])
+def get_workout_stats():
+    params = request.args
+    timestamp = params.get("timestamp")
+    account_id = params.get("account_id")
+    return (get_workout_details_by_timestamp(timestamp, account_id))
 
 
 if __name__ == '__main__':
