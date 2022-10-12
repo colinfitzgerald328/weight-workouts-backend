@@ -76,7 +76,7 @@ def add_exercise(account_id, timestamp, exercise_type, weight, reps):
 def get_feed_for_user(account_id): 
     conn = open_connection()
     with conn.cursor() as cursor:
-        result = cursor.execute('SELECT TIMESTAMP, COUNT(*) as sets, SUM(reps) as total_reps from workouts where account_id=%s group by TIMESTAMP', (account_id))
+        result = cursor.execute('SELECT TIMESTAMP, COUNT(*) as sets, SUM(reps) as total_reps from workouts where account_id=%s group by TIMESTAMP order by TIMESTAMP DESC', (account_id))
         feed = cursor.fetchall()
         if result > 0:
             got_feed = {"operation": "success", "feed": feed}
@@ -116,3 +116,22 @@ def get_workout_details_by_timestamp(timestamp, account_id):
             got_workout_stats = {"operation": "error"}
     conn.close()
     return jsonify(got_workout_stats)
+
+def add_user_profile_by_account(account_id, name, city): 
+    conn = open_connection()
+    with conn.cursor() as cursor:
+        cursor.execute('INSERT INTO profiles (account_id, name, city) VALUES (%s, %s, %s)', (account_id, name, city))
+    conn.commit()
+    conn.close()
+
+def get_profile_by_account(account_id): 
+    conn = open_connection()
+    with conn.cursor() as cursor:
+        result = cursor.execute('SELECT * from profiles where account_id=%s', (account_id))
+        profile = cursor.fetchall()
+        if result > 0:
+            got_profile = {"user_profile": profile}
+        else:
+            got_profile = {"operation": "error"}
+    conn.close()
+    return jsonify(got_profile)
