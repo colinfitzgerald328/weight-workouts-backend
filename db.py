@@ -124,6 +124,7 @@ def add_user_profile_by_account(account_id, name, city):
     conn.commit()
     conn.close()
 
+
 def get_profile_by_account(account_id): 
     conn = open_connection()
     with conn.cursor() as cursor:
@@ -135,3 +136,10 @@ def get_profile_by_account(account_id):
             got_profile = {"operation": "error"}
     conn.close()
     return jsonify(got_profile)
+
+def delete_profile_by_account(account_id): 
+    conn = open_connection()
+    with conn.cursor() as cursor:
+        cursor.execute('DELETE FROM profiles WHERE account_id=%s', (account_id))
+    conn.commit()
+    conn.close()

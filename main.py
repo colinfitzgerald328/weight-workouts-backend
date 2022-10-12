@@ -2,7 +2,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import time
-from db import get_songs, add_songs, check_password, add_new_user, add_exercise, get_feed_for_user, get_workout_by_timestamp, add_length_and_type, get_workout_details_by_timestamp, add_user_profile_by_account, get_profile_by_account
+from db import delete_profile_by_account, get_songs, add_songs, check_password, add_new_user, add_exercise, get_feed_for_user, get_workout_by_timestamp, add_length_and_type, get_workout_details_by_timestamp, add_user_profile_by_account, get_profile_by_account, delete_profile_by_account
 
 app = Flask(__name__)
 CORS(app)
@@ -81,6 +81,17 @@ def add_user_profile():
     account_id = params.get("account_id")
     name = params.get("name")
     city = params.get("city")
+    add_user_profile_by_account(account_id=account_id, name=name, city=city)
+    return jsonify({"operation": "success"})
+
+
+@app.route('/updateUserProfile', methods=['POST'])
+def update_user_profile(): 
+    params = request.json
+    account_id = params.get("account_id")
+    name = params.get("name")
+    city = params.get("city")
+    delete_profile_by_account(account_id=account_id)
     add_user_profile_by_account(account_id=account_id, name=name, city=city)
     return jsonify({"operation": "success"})
 
