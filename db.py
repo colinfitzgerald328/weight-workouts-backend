@@ -117,10 +117,10 @@ def get_workout_details_by_timestamp(timestamp, account_id):
     conn.close()
     return jsonify(got_workout_stats)
 
-def add_user_profile_by_account(account_id, name, city): 
+def add_user_profile_by_account(account_id, name, city, image_url): 
     conn = open_connection()
     with conn.cursor() as cursor:
-        cursor.execute('INSERT INTO profiles (account_id, name, city) VALUES (%s, %s, %s)', (account_id, name, city))
+        cursor.execute('INSERT INTO profiles (account_id, name, city, image_url) VALUES (%s, %s, %s, %s)', (account_id, name, city, image_url))
     conn.commit()
     conn.close()
 

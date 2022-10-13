@@ -91,8 +91,9 @@ def update_user_profile():
     account_id = params.get("account_id")
     name = params.get("name")
     city = params.get("city")
+    image_url = params.get("image_url")
     delete_profile_by_account(account_id=account_id)
-    add_user_profile_by_account(account_id=account_id, name=name, city=city)
+    add_user_profile_by_account(account_id=account_id, name=name, city=city, image_url=image_url)
     return jsonify({"operation": "success"})
 
 
