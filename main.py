@@ -2,24 +2,13 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import time
-from db import delete_profile_by_account, get_songs, add_songs, check_password, add_new_user, add_exercise, get_feed_for_user, get_workout_by_timestamp, add_length_and_type, get_workout_details_by_timestamp, add_user_profile_by_account, get_profile_by_account, delete_profile_by_account
+from db import delete_profile_by_account, check_password, add_new_user, add_exercise, get_feed_for_user, get_workout_by_timestamp, add_length_and_type, get_workout_details_by_timestamp, add_user_profile_by_account, get_profile_by_account, delete_profile_by_account
 
 app = Flask(__name__)
 CORS(app)
 
 def current_timestamp(): 
     return(int(time.time()))
-
-@app.route('/', methods=['POST', 'GET'])
-def songs():
-    if request.method == 'POST':
-        if not request.is_json:
-            return jsonify({"msg": "Missing JSON in request"}), 400  
-
-        add_songs(request.get_json())
-        return 'Song Added'
-
-    return get_songs()    
 
 
 @app.route('/login', methods=['POST'])
@@ -81,7 +70,8 @@ def add_user_profile():
     account_id = params.get("account_id")
     name = params.get("name")
     city = params.get("city")
-    add_user_profile_by_account(account_id=account_id, name=name, city=city)
+    image_url = params.get("image_url")
+    add_user_profile_by_account(account_id=account_id, name=name, city=city, image_url=image_url)
     return jsonify({"operation": "success"})
 
 

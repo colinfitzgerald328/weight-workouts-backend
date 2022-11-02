@@ -23,27 +23,6 @@ def open_connection():
     return conn
 
 
-def get_songs():
-    conn = open_connection()
-    with conn.cursor() as cursor:
-        result = cursor.execute('SELECT * FROM accounts;')
-        songs = cursor.fetchall()
-        if result > 0:
-            got_songs = jsonify(songs)
-        else:
-            got_songs = 'No Songs in DB'
-    conn.close()
-    return got_songs
-
-
-def add_songs(song):
-    conn = open_connection()
-    with conn.cursor() as cursor:
-        cursor.execute('INSERT INTO songs (title, artist, genre) VALUES(%s, %s, %s)', (song["title"], song["artist"], song["genre"]))
-    conn.commit()
-    conn.close()
-
-
 def check_password(username, password):
     conn = open_connection()
     with conn.cursor() as cursor:

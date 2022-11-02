@@ -3,6 +3,6 @@ runtime: python39
 
 env_variables:
   CLOUD_SQL_USERNAME: root
-  CLOUD_SQL_PASSWORD: whatdoyoumean?
-  CLOUD_SQL_DATABASE_NAME: weight-workouts-database
-  CLOUD_SQL_CONNECTION_NAME: weight-workouts:us-central1:weight-workouts-db
+  CLOUD_SQL_PASSWORD: myVmo8-sisrub-zaxzyc
+  CLOUD_SQL_DATABASE_NAME: weights
+  CLOUD_SQL_CONNECTION_NAME: winter-cogency-367402:us-central1:weight-workouts-backend
